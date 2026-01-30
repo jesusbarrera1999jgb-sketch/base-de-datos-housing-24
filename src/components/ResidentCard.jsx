@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   User, Car, Users, Plus, Trash2, 
   Shield, Edit2, Check, Camera, 
-  ChevronDown, Trash
+  ChevronDown, Trash 
 } from 'lucide-react';
 
 export const ResidentCard = ({ resident, role, onUpdate, onDelete }) => {
@@ -75,7 +75,7 @@ export const ResidentCard = ({ resident, role, onUpdate, onDelete }) => {
   };
 
   const handleChangePhoto = () => {
-    const url = prompt('URL de la foto (debe ser un link de imagen):', resident.imageUrl);
+    const url = prompt('URL de la foto:', resident.imageUrl);
     if (url !== null) updateField('imageUrl', url || undefined);
   };
 
@@ -85,44 +85,25 @@ export const ResidentCard = ({ resident, role, onUpdate, onDelete }) => {
     }
   };
 
-  const inputClassName = "px-3 py-1.5 text-sm font-semibold border border-slate-300 dark:border-slate-500 bg-white dark:bg-black text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition-all w-full";
+  const inputClassName = "px-3 py-1.5 text-sm font-semibold border border-slate-300 dark:border-slate-500 bg-white dark:bg-black text-slate-900 dark:text-white rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition-all w-full";
 
   return (
-    <div 
-      className={`border rounded-2xl transition-all duration-300 overflow-hidden ${
-        isOpen 
-          ? 'bg-white dark:bg-slate-800 shadow-xl ring-1 ring-slate-200 dark:ring-slate-700 border-slate-300 dark:border-slate-600' 
-          : 'bg-slate-50 dark:bg-slate-900 hover:bg-white dark:hover:bg-slate-800 hover:shadow-md border-transparent cursor-pointer'
-      }`}
-    >
-      <div 
-        className="p-5 flex items-center justify-between"
-        onClick={() => !isEditingBase && setIsOpen(!isOpen)}
-      >
+    <div className={`border rounded-2xl transition-all duration-300 overflow-hidden ${isOpen ? 'bg-white dark:bg-slate-800 shadow-xl border-slate-300 dark:border-slate-600' : 'bg-slate-50 dark:bg-slate-900 hover:bg-white dark:hover:bg-slate-800 border-transparent cursor-pointer'}`}>
+      <div className="p-5 flex items-center justify-between" onClick={() => !isEditingBase && setIsOpen(!isOpen)}>
         <div className="flex items-center gap-4 flex-1">
           <div className="relative group/photo shrink-0">
-            <div className="w-12 h-12 rounded-2xl bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-400 dark:text-slate-500 font-bold overflow-hidden shadow-inner border border-slate-100 dark:border-slate-800">
+            <div className="w-12 h-12 rounded-2xl bg-slate-200 dark:bg-slate-700 flex items-center justify-center overflow-hidden border border-slate-100 dark:border-slate-800">
               {resident.imageUrl ? (
                 <img src={resident.imageUrl} alt="" className="w-full h-full object-cover" />
               ) : (
-                <User className="w-6 h-6" />
+                <User className="w-6 h-6 text-slate-400" />
               )}
             </div>
             {isAdmin && isOpen && (
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/photo:opacity-100 transition-opacity rounded-2xl flex items-center justify-center gap-1">
-                <button 
-                  onClick={(e) => { e.stopPropagation(); handleChangePhoto(); }}
-                  className="p-1 text-white hover:text-emerald-400"
-                >
-                  <Camera className="w-4 h-4" />
-                </button>
+                <button onClick={(e) => { e.stopPropagation(); handleChangePhoto(); }} className="p-1 text-white hover:text-emerald-400"><Camera className="w-4 h-4" /></button>
                 {resident.imageUrl && (
-                  <button 
-                    onClick={(e) => { e.stopPropagation(); handleRemovePhoto(); }}
-                    className="p-1 text-white hover:text-red-400"
-                  >
-                    <Trash className="w-4 h-4" />
-                  </button>
+                  <button onClick={(e) => { e.stopPropagation(); handleRemovePhoto(); }} className="p-1 text-white hover:text-red-400"><Trash className="w-4 h-4" /></button>
                 )}
               </div>
             )}
@@ -132,40 +113,18 @@ export const ResidentCard = ({ resident, role, onUpdate, onDelete }) => {
             {isEditingBase ? (
               <div className="flex flex-wrap gap-2" onClick={e => e.stopPropagation()}>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 w-full">
-                  <input 
-                    value={resident.firstName} 
-                    onChange={e => updateField('firstName', e.target.value)}
-                    placeholder="Nombres"
-                    className={inputClassName}
-                  />
-                  <input 
-                    value={resident.lastName} 
-                    onChange={e => updateField('lastName', e.target.value)}
-                    placeholder="Apellidos"
-                    className={inputClassName}
-                  />
+                  <input value={resident.firstName} onChange={e => updateField('firstName', e.target.value)} placeholder="Nombres" className={inputClassName} />
+                  <input value={resident.lastName} onChange={e => updateField('lastName', e.target.value)} placeholder="Apellidos" className={inputClassName} />
                   <div className="flex gap-2">
-                    <input 
-                      value={resident.dni} 
-                      onChange={e => updateField('dni', e.target.value)}
-                      placeholder="DNI"
-                      className={inputClassName}
-                    />
-                    <button 
-                      onClick={() => setIsEditingBase(false)} 
-                      className="bg-slate-900 dark:bg-white dark:text-slate-900 text-white px-4 py-1.5 rounded-xl text-xs font-black shadow-lg"
-                    >
-                      <Check className="w-4 h-4" />
-                    </button>
+                    <input value={resident.dni} onChange={e => updateField('dni', e.target.value)} placeholder="DNI" className={inputClassName} />
+                    <button onClick={() => setIsEditingBase(false)} className="bg-slate-900 dark:bg-white dark:text-slate-900 text-white px-4 py-1.5 rounded-xl text-xs font-black"><Check className="w-4 h-4" /></button>
                   </div>
                 </div>
               </div>
             ) : (
               <div className="truncate">
                 <h4 className="font-bold text-slate-900 dark:text-slate-100 truncate">{resident.firstName} {resident.lastName}</h4>
-                <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest">
-                  DNI: {resident.dni || 'No registrado'}
-                </p>
+                <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest">DNI: {resident.dni || 'No registrado'}</p>
               </div>
             )}
           </div>
@@ -173,75 +132,58 @@ export const ResidentCard = ({ resident, role, onUpdate, onDelete }) => {
 
         <div className="flex items-center gap-2">
           {isAdmin && (
-            <div className="flex items-center gap-1 opacity-60 hover:opacity-100">
-               <button onClick={(e) => { e.stopPropagation(); setIsEditingBase(!isEditingBase); }} className="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
-                <Edit2 className="w-4 h-4" />
-              </button>
-              <button onClick={(e) => { e.stopPropagation(); onDelete(); }} className="p-2 text-slate-400 hover:text-red-500 transition-colors">
-                <Trash2 className="w-4 h-4" />
-              </button>
+            <div className="flex items-center gap-1">
+              <button onClick={(e) => { e.stopPropagation(); setIsEditingBase(!isEditingBase); }} className="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white"><Edit2 className="w-4 h-4" /></button>
+              <button onClick={(e) => { e.stopPropagation(); onDelete(); }} className="p-2 text-slate-400 hover:text-red-500"><Trash2 className="w-4 h-4" /></button>
             </div>
           )}
-          <ChevronDown className={`w-5 h-5 text-slate-300 dark:text-slate-600 transition-transform duration-300 ${isOpen ? 'rotate-180 text-slate-900 dark:text-white' : ''}`} />
+          <ChevronDown className={`w-5 h-5 text-slate-300 transition-transform duration-300 ${isOpen ? 'rotate-180 text-slate-900 dark:text-white' : ''}`} />
         </div>
       </div>
 
       <AnimatePresence>
         {isOpen && (
-          <motion.div 
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="px-6 pb-6 pt-2"
-          >
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="px-6 pb-6 pt-2">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Vehículos */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">Vehículos</h5>
-                  {isAdmin && (
-                    <button onClick={handleAddVehicle} className="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-400 hover:text-slate-900 dark:hover:text-white">
-                      <Plus className="w-3.5 h-3.5" />
-                    </button>
-                  )}
+                  <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Vehículos</h5>
+                  {isAdmin && <button onClick={handleAddVehicle} className="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg"><Plus className="w-3.5 h-3.5" /></button>}
                 </div>
                 <div className="space-y-2">
                   {resident.vehicles.map((v, i) => (
-                    <div key={i} className="flex items-center gap-3 bg-white dark:bg-slate-700/50 p-3 rounded-xl border border-slate-100 dark:border-slate-700 shadow-sm relative group/item">
+                    <div key={i} className="flex items-center gap-3 bg-white dark:bg-slate-700/50 p-3 rounded-xl border border-slate-100 dark:border-slate-700 relative group/item">
                       <div className="w-10 h-10 bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden relative group/vphoto">
                         {v.imageUrl ? <img src={v.imageUrl} className="w-full h-full object-cover" /> : <Car className="w-full h-full p-2 text-slate-300" />}
                         {isAdmin && v.imageUrl && (
-                          <button onClick={() => removeItemPhoto('vehicles', i)} className="absolute inset-0 bg-red-500/80 opacity-0 group-hover/vphoto:opacity-100 transition-opacity flex items-center justify-center text-white">
-                            <Trash className="w-3 h-3" />
-                          </button>
+                          <button onClick={() => removeItemPhoto('vehicles', i)} className="absolute inset-0 bg-red-500/80 opacity-0 group-hover/vphoto:opacity-100 flex items-center justify-center text-white"><Trash className="w-3 h-3" /></button>
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">{v.model}</p>
                         <p className="text-[10px] text-slate-400 font-mono truncate">{v.plate}</p>
                       </div>
-                      {isAdmin && (
-                        <button onClick={() => removeItem('vehicles', i)} className="opacity-0 group-hover/item:opacity-100 text-slate-300 hover:text-red-500 p-1">
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      )}
+                      {isAdmin && <button onClick={() => removeItem('vehicles', i)} className="opacity-0 group-hover/item:opacity-100 text-slate-300 hover:text-red-500 p-1"><Trash2 className="w-3.5 h-3.5" /></button>}
                     </div>
                   ))}
                 </div>
               </div>
 
+              {/* Personal */}
               <div className="space-y-3">
-                <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5 justify-between">
+                <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center justify-between">
                   Personal Doméstico
                   {isAdmin && <button onClick={handleAddStaff} className="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg"><Plus className="w-3.5 h-3.5" /></button>}
                 </h5>
                 <div className="space-y-2">
                   {resident.domesticStaff.map((p, i) => (
-                    <div key={i} className="flex items-center gap-3 bg-blue-50/50 dark:bg-blue-900/10 p-3 rounded-xl border border-blue-100 dark:border-blue-900/20 shadow-sm relative group/item">
-                      <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 shrink-0 overflow-hidden relative group/pphoto">
-                         {p.imageUrl ? <img src={p.imageUrl} className="w-full h-full object-cover" /> : <Shield className="w-full h-full p-1.5 text-blue-300" />}
-                         {isAdmin && p.imageUrl && (
-                           <button onClick={() => removeItemPhoto('domesticStaff', i)} className="absolute inset-0 bg-red-500/80 opacity-0 group-hover/pphoto:opacity-100 transition-opacity flex items-center justify-center text-white"><Trash className="w-3 h-3" /></button>
-                         )}
+                    <div key={i} className="flex items-center gap-3 bg-blue-50/50 dark:bg-blue-900/10 p-3 rounded-xl border border-blue-100 dark:border-blue-900/20 relative group/item">
+                      <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 overflow-hidden relative group/pphoto">
+                        {p.imageUrl ? <img src={p.imageUrl} className="w-full h-full object-cover" /> : <Shield className="w-full h-full p-1.5 text-blue-300" />}
+                        {isAdmin && p.imageUrl && (
+                          <button onClick={() => removeItemPhoto('domesticStaff', i)} className="absolute inset-0 bg-red-500/80 opacity-0 group-hover/pphoto:opacity-100 flex items-center justify-center text-white"><Trash className="w-3 h-3" /></button>
+                        )}
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-blue-900 dark:text-blue-200 truncate">{p.firstName} {p.lastName}</p>
@@ -253,19 +195,20 @@ export const ResidentCard = ({ resident, role, onUpdate, onDelete }) => {
                 </div>
               </div>
 
+              {/* Visitas */}
               <div className="space-y-3">
-                <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5 justify-between">
+                <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center justify-between">
                   Visitas Autorizadas
                   {isAdmin && <button onClick={handleAddVisitor} className="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg"><Plus className="w-3.5 h-3.5" /></button>}
                 </h5>
                 <div className="space-y-2">
                   {resident.permanentVisitors.map((p, i) => (
-                    <div key={i} className="flex items-center gap-3 bg-emerald-50/50 dark:bg-emerald-900/10 p-3 rounded-xl border border-emerald-100 dark:border-emerald-900/20 shadow-sm relative group/item">
-                      <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 shrink-0 overflow-hidden relative group/viphoto">
-                         {p.imageUrl ? <img src={p.imageUrl} className="w-full h-full object-cover" /> : <Users className="w-full h-full p-1.5 text-emerald-300" />}
-                         {isAdmin && p.imageUrl && (
-                           <button onClick={() => removeItemPhoto('permanentVisitors', i)} className="absolute inset-0 bg-red-500/80 opacity-0 group-hover/viphoto:opacity-100 transition-opacity flex items-center justify-center text-white"><Trash className="w-3 h-3" /></button>
-                         )}
+                    <div key={i} className="flex items-center gap-3 bg-emerald-50/50 dark:bg-emerald-900/10 p-3 rounded-xl border border-emerald-100 dark:border-emerald-900/20 relative group/item">
+                      <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 overflow-hidden relative group/viphoto">
+                        {p.imageUrl ? <img src={p.imageUrl} className="w-full h-full object-cover" /> : <Users className="w-full h-full p-1.5 text-emerald-300" />}
+                        {isAdmin && p.imageUrl && (
+                          <button onClick={() => removeItemPhoto('permanentVisitors', i)} className="absolute inset-0 bg-red-500/80 opacity-0 group-hover/viphoto:opacity-100 flex items-center justify-center text-white"><Trash className="w-3 h-3" /></button>
+                        )}
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-emerald-900 dark:text-emerald-200 truncate">{p.firstName} {p.lastName}</p>
