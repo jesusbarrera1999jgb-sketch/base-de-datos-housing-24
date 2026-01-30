@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-// Importación corregida a .js (o sin extensión) para evitar errores de compilación
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  X, User, Car, Users, Plus, Trash2, 
+  Shield, Edit2, Check, CreditCard, 
+  MapPin, Phone, MessageSquare, Camera,
+  Image as ImageIcon
+} from 'lucide-react';
 import { ResidentCard } from './ResidentCard';
 
 export const ApartmentModal = ({ apartment, role, onClose, onOpenGallery, onUpdateApartment }) => {
@@ -11,7 +17,6 @@ export const ApartmentModal = ({ apartment, role, onClose, onOpenGallery, onUpda
   const handleAddResident = () => {
     if (!newRes.firstName || !newRes.lastName) return;
     
-    // Objeto JS puro, sin el tipo ": Resident"
     const resident = {
       id: `res-${Date.now()}`,
       firstName: newRes.firstName,
@@ -54,8 +59,11 @@ export const ApartmentModal = ({ apartment, role, onClose, onOpenGallery, onUpda
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-300">
-      <div 
-        className="bg-white dark:bg-slate-900 w-full max-w-3xl rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-300 border border-slate-200 dark:border-slate-800 transition-colors"
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        className="bg-white dark:bg-slate-900 w-full max-w-3xl rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-slate-200 dark:border-slate-800 transition-colors"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-8 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/50">
@@ -67,7 +75,7 @@ export const ApartmentModal = ({ apartment, role, onClose, onOpenGallery, onUpda
             onClick={onClose}
             className="p-3 hover:bg-white dark:hover:bg-slate-800 hover:shadow-md rounded-2xl transition-all text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-white"
           >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+            <X className="w-6 h-6" />
           </button>
         </div>
 
@@ -82,47 +90,51 @@ export const ApartmentModal = ({ apartment, role, onClose, onOpenGallery, onUpda
                     isAdding ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border-red-100 dark:border-red-900/30' : 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 border-slate-900 dark:border-white'
                   }`}
                 >
+                  <Plus className={`w-4 h-4 transition-transform ${isAdding ? 'rotate-45' : ''}`} />
                   {isAdding ? 'Cancelar' : 'Nuevo'}
                 </button>
               )}
-              <button 
-                onClick={() => onOpenGallery(apartment)}
-                className="flex items-center gap-2 px-6 py-2.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-2xl transition-all text-xs font-bold border border-slate-200 dark:border-slate-700 shadow-sm"
-              >
-                Galería
-              </button>
             </div>
           </div>
 
-          {isAdding && (
-            <div className="p-6 bg-slate-50 dark:bg-slate-800 rounded-[2rem] border border-slate-200 dark:border-slate-700 space-y-4 animate-in slide-in-from-top-2">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <input 
-                  placeholder="Nombres"
-                  value={newRes.firstName}
-                  onChange={e => setNewRes({...newRes, firstName: e.target.value})}
-                  className={inputClassName}
-                />
-                <input 
-                  placeholder="Apellidos"
-                  value={newRes.lastName}
-                  onChange={e => setNewRes({...newRes, lastName: e.target.value})}
-                  className={inputClassName}
-                />
-                <input 
-                  placeholder="DNI (Opcional)"
-                  value={newRes.dni}
-                  onChange={e => setNewRes({...newRes, dni: e.target.value})}
-                  className={inputClassName + " sm:col-span-2"}
-                />
-              </div>
-              <button onClick={handleAddResident} className="w-full py-3 bg-emerald-500 text-white rounded-xl font-bold hover:bg-emerald-600 transition-colors text-sm shadow-lg shadow-emerald-200 dark:shadow-emerald-900/40">
-                Añadir Residente
-              </button>
-            </div>
-          )}
+          <AnimatePresence>
+            {isAdding && (
+              <motion.div 
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="overflow-hidden"
+              >
+                <div className="p-6 bg-slate-50 dark:bg-slate-800 rounded-[2rem] border border-slate-200 dark:border-slate-700 space-y-4 mb-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <input 
+                      placeholder="Nombres"
+                      value={newRes.firstName}
+                      onChange={e => setNewRes({...newRes, firstName: e.target.value})}
+                      className={inputClassName}
+                    />
+                    <input 
+                      placeholder="Apellidos"
+                      value={newRes.lastName}
+                      onChange={e => setNewRes({...newRes, lastName: e.target.value})}
+                      className={inputClassName}
+                    />
+                    <input 
+                      placeholder="DNI (Opcional)"
+                      value={newRes.dni}
+                      onChange={e => setNewRes({...newRes, dni: e.target.value})}
+                      className={inputClassName + " sm:col-span-2"}
+                    />
+                  </div>
+                  <button onClick={handleAddResident} className="w-full py-3 bg-emerald-500 text-white rounded-xl font-bold hover:bg-emerald-600 transition-colors text-sm shadow-lg shadow-emerald-200 dark:shadow-emerald-900/40">
+                    Añadir Residente
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-          <div className="space-y-4">
+          <div className="grid gap-4">
             {apartment.residents.map((resident) => (
               <ResidentCard 
                 key={resident.id} 
@@ -140,7 +152,7 @@ export const ApartmentModal = ({ apartment, role, onClose, onOpenGallery, onUpda
             Cerrar
           </button>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
