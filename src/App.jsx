@@ -110,4 +110,27 @@ const App = () => {
                     onClick={() => setSelectedApartment(apt)}
                     className="group relative flex flex-col items-center justify-center p-8 rounded-2xl border bg-white dark:bg-slate-900 shadow-sm hover:shadow-xl transition-all"
                   >
-                    <span className="
+                    <span className="text-3xl font-black mb-2">{apt.unitNumber}</span>
+                  </button>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      </main>
+
+      {selectedApartment && (
+        <ApartmentModal 
+          apartment={selectedApartment} 
+          role={role}
+          onClose={() => setSelectedApartment(null)} 
+          onUpdateApartment={handleUpdateApartment}
+        />
+      )}
+      
+      <Toast message="Cambio realizado" isVisible={showToast} onClose={() => setShowToast(false)} />
+    </div>
+  );
+};
+
+export default App;
