@@ -1,18 +1,17 @@
 
 import React, { useState, useEffect } from 'react';
 import { HOUSING_24_DATA } from './mockData';
-import { Apartment, Floor, UserRole, Building } from './types';
-import { ApartmentModal } from './components/ApartmentModal';
-import { GalleryView } from './components/GalleryView';
-import { SearchBar } from './components/SearchBar';
-import { LoginPage } from './components/LoginPage';
-import { Toast } from './components/Toast';
+import ApartmentModal from './components/ApartmentModal';
+import GalleryView from './components/GalleryView';
+import SearchBar from './components/SearchBar';
+import LoginPage from './components/LoginPage';
+import Toast from './components/Toast';
 
-const App: React.FC = () => {
-  const [role, setRole] = useState<UserRole>(null);
-  const [data, setData] = useState<Building>(HOUSING_24_DATA);
-  const [selectedApartment, setSelectedApartment] = useState<Apartment | null>(null);
-  const [galleryApartment, setGalleryApartment] = useState<Apartment | null>(null);
+const App = () => {
+  const [role, setRole] = useState(null);
+  const [data, setData] = useState(HOUSING_24_DATA);
+  const [selectedApartment, setSelectedApartment] = useState(null);
+  const [galleryApartment, setGalleryApartment] = useState(null);
   const [showToast, setShowToast] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -27,18 +26,18 @@ const App: React.FC = () => {
 
   const sortedFloors = [...data.floors].sort((a, b) => a.level - b.level);
 
-  const handleSelectFloor = (floor: Floor) => {
+  const handleSelectFloor = (floor) => {
     const element = document.getElementById(`floor-section-${floor.level}`);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
-  const handleSelectApartment = (apt: Apartment) => {
+  const handleSelectApartment = (apt) => {
     setSelectedApartment(apt);
   };
 
-  const handleUpdateApartment = (updatedApt: Apartment) => {
+  const handleUpdateApartment = (updatedApt) => {
     const newData = {
       ...data,
       floors: data.floors.map(f => ({
@@ -102,7 +101,6 @@ const App: React.FC = () => {
           />
 
           <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-            {/* Dark Mode Toggle */}
             <button 
               onClick={() => setIsDarkMode(!isDarkMode)}
               className="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all"
